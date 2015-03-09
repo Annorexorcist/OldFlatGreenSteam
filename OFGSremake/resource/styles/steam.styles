@@ -74,7 +74,7 @@ steam.styles
     TitleBar="86 81 78 50"
     TitleBarFocus="176 169 162 50"
     
-    Focus="49 65 89 255"  		// background color of any selected menu or list item
+    Focus="57 63 55 255"  		// background color of any selected menu or list item
     Focus2="85	125 171 255"		// background color of view buttons and anything else in focus that needs more 'punch'
     Focus3="62 92 133 255"		// background color of highlighted friends 
     FocusGrid="85 146 160 240"  	// background color of any grid item

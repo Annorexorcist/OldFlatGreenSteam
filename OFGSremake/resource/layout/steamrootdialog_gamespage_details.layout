@@ -16,9 +16,7 @@
 		// Header text labels
 		gametitleheader { controlname="CDetailsGameTitleHeaderPanel" zpos="2" }
 		gamesubheader { controlname="CDetailsGameSubHeaderPanel" zpos="2" }
-		gamesubheaderright { controlname="CDetailsGameSubHeaderRightPanel" zpos="2" }
-
-		// Right column links
+		
 		linkslabel { controlname="Label" labeltext="#Steam_Links" style="rightcolumnheadertext" } 
 		sendguestpasslink { controlname="URLLabel" labeltext="#steam_send_guestpass" style="rightcolumnlink" tabposition=7 command="SendGuestPass" }
 		achievementslink { controlname="URLLabel" labeltext="#Steam_Achievements" style="rightcolumnlink" }
@@ -42,6 +40,7 @@
 
 		// Body contents
 		welcomedetails { controlname="CGamesPage_Details_Welcome" zpos="1" }
+		dlcdetails { controlname="CGamesPage_Details_DLC" zpos="1" }
 		friendsdetails { controlname="CGamesPage_Details_Friends" zpos="1" }
 		clouddetails { controlname="CGamesPage_Details_Cloud" zpos="1" }
 		communityfilesdetails { controlname="CGamesPage_Details_CommunityFiles" zpos="1" }
@@ -49,6 +48,7 @@
 		newsdetails { controlname="CGamesPage_Details_News" zpos="1" }
 		nonsteamdetails { controlname="CGamesPage_Details_NonSteam" zpos="1" }
 		screenshotsdetails { controlname="CGamesPage_Details_Screenshots" zpos="1" }
+		turnnotifications { controlname="CGamesPage_Details_TurnNotifications" zpos="1" visible="0" }
 
 		// Empty list contents
 		emptylisttext { controlname="RichText" style="emptylisttext" }
@@ -59,7 +59,6 @@
 	{
 		CGamesListPanel
 		{
-			inset = "0 0 0 0"
 			render_bg { }
 		}
 
@@ -72,12 +71,15 @@
 
 		CGamesPage_Details
 		{
-			//bgcolor="testcolor"
-			inset="0 0 0 0"
-			render_bg {
-			0="fill( x0, y0, x1, y1, GrayBG )"  // background
-			1="image_scale( x0, y0, x1, y0 + 4, skins/OFGSremake/Graphics/gameslist_fade_top )" // top fade
-			2="image_scale( x0, y1-5, x1, y1, skins/OFGSremake/Graphics/gameslist_fade_bottom )" // bottom fade
+			bgcolor="none"
+			inset="0 0 0 1"
+			render
+						{
+						}
+			render_bg
+			{
+				 0="gradient( x0+2, y0+2, x1-1, y1 - 1, dialogbg, almostblack )"
+				 //1="gradient( x0 +2, y0+2, x1-1, y0 + 20, backgroundstartsubtle, none )"
 			}
 		}
 
@@ -98,14 +100,14 @@
 		"GamesPage_Details ListPanelInterior"
 		{
 			bgcolor="none"
-			inset="1 0 0 0"
+			inset="0 1 0 0"
 			render {}
 			render_bg {} 
 		}
 		
 		"GamesPage_Details ListPanelInterior:scrollbar"
 			{     
-			inset="1 1 -2 0"
+			inset="0 1 -2 0"
 			bgcolor=none
 			
 			render_bg {}
@@ -115,8 +117,10 @@
 		{     
 			inset="2 0 0 0"
 			textcolor=label
+			font-style="uppercase"
 			render_bg
 			{
+				0="gradient_horizontal( x0 - 1, y0, x0 + 250, y1 - 1, propertysheetbg, Friends.ListHeaderFadeOut  )"
 			}    
 		} 
 
@@ -135,6 +139,7 @@
 			render {}
 			render_bg 
 			{
+				0="gradient_horizontal( x0+1, y0+2, x1, y1 + 1, ButtonFace, none )"
 			}
 
 		}
@@ -160,7 +165,7 @@
         		}
 		}
 		
-		headerimage { bgcolor="none" }
+		headerimage { bgcolor="0 0 0 0" }
 
 		rightcolumnheadertext
 		{
@@ -169,7 +174,7 @@
 			font-family=basefont
 			font-weight=700
 			font-size=17
-			textcolor=maize
+			textcolor=label2
 			padding-top=12
 			padding-left=10
 		}
@@ -179,7 +184,7 @@
 			inset="-9 0 0 0"
 			font-style=uppercase;
 			font-size=17
-			textcolor=maize
+			textcolor=GameDetailsRed
 			font-family=basefont
 			font-weight=700
 			padding-top=12
@@ -192,7 +197,7 @@
 			inset="-9 0 0 0"
 			font-style=uppercase;
 			font-size=17
-			textcolor=maize
+			textcolor=GameDetailsGreen
 			font-family=basefont
 			font-weight=700
 			padding-top=12
@@ -204,7 +209,7 @@
 			inset="-9 0 0 0"
 			font-style=uppercase;
 			font-size=17
-			textcolor=maize
+			textcolor=GameDetailsBlue
 			font-family=basefont
 			font-weight=700
 			padding-top=12
@@ -228,6 +233,11 @@
 		{
 			textcolor=White
 		}
+
+		rightcolumnlink:disabled
+		{
+			textcolor="TextDisabled"
+		}
 		
 		rightcolumntag
 		{
@@ -245,8 +255,12 @@
 		{
 			
 			bgcolor = none
-			render_bg
+			render 
 			{
+				// background gradient
+
+
+
 
 			}
 		}
@@ -256,9 +270,9 @@
 	{
 		region	{ name="list" y=2 x=1 width=275 height=max margin-bottom=0 }
 		region	{ name="details" y=1 x=275 width=max height=max overflow=scroll-vertical margin-left=1 margin-top=1 margin-bottom=1 margin-right=-1}
-		region	{ name="headertext" region=details y=40 x=5 width=max height=max margin-right=20 }
-		region	{ name="rightcolumn" region=details y=159 height=max width=1156 margin-right=0 margin-top=1 margin-bottom=1 overflow=allow-vertical }
-		region  { name="detailsbody" region=details y=159 width=1156 margin-right=160 overflow=allow-vertical }
+		region	{ name="headertext" region=details y=20 x=5 width=max height=max margin-right=20 }
+		region	{ name="rightcolumn" region=details y=171 height=max width=1156 margin-right=0 margin-top=1 margin-bottom=1 overflow=allow-vertical }
+		region  { name="detailsbody" region=details y=174 height=max width=1156 margin-right=160 overflow=allow-vertical }
 
 		// Empty list text, which goes across regions
 		place	{ control=emptylisttext x=0 y=0 width=max height=max margin=10 }
@@ -267,7 +281,18 @@
 		place 	{ control=GamesList region=list width=275 height=max margin=0 }
 		
 		// Body contents
-		place 	{ control=welcomedetails,friendsdetails,clouddetails,communityfilesdetails,achievementsdetails,newsdetails,nonsteamdetails,screenshotsdetails region=detailsbody dir=down width=max margin-right=10 margin-top=25 margin-left=5 spacing=10 margin-bottom=10 }
+		place 
+		{ 
+			control=welcomedetails,turnnotifications,friendsdetails,achievementsdetails,dlcdetails,clouddetails,communityfilesdetails,newsdetails,nonsteamdetails,screenshotsdetails
+			region=detailsbody
+			dir=down
+			width=max
+			margin-right=10
+			margin-top=0
+			margin-left=5
+			spacing=10
+			margin-bottom=10 
+		}
 
 		
 		// Details border
@@ -280,18 +305,16 @@
 
 		// Header text
 		place 	{ control=gametitleheader region=headertext dir=down height=46 }
-		place	{ control=gamesubheader start=gametitleheader region=headertext dir=down height=42 }
-		place	{ control=gamesubheaderright start=gamesubheader region=headertext margin-right=150 align=right height=42 }
-
-		//		Buttons and links on the right
+		place	{ control=gamesubheader start=gametitleheader region=headertext dir=down margin-top=10 }
+		
+		// Buttons and links on the right
 		place	
 		{ 
 			control=linkslabel,sendguestpasslink,gamehublink,achievementslink,forumlink,ogglink,manuallink,newslink,storelink,dlclink,cdkeylink,guidelink,guideslink,supportlink,recommendlink,tagslabel,*taglink,edittagslink
 			region=rightcolumn 
 			dir=down 
 			width=150 
-			margin=10
-			margin-top=20
+			margin=0
 			align=right
 			spacing=5 
 
